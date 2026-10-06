@@ -6,16 +6,20 @@ Phase 0 foundation completed and validated. Phase 1 is not authorized. Owner:
 Codex; no concurrent feature owner. Independent Git repository on branch main
 under the AWS evidence workspace.
 Origin configured as https://github.com/osamaali-albawaba/news-intelligence-engine.git.
-Git Credential Manager device sign-in has started; user authorization is pending.
-The existing commits are preserved. No push has occurred yet.
+Git Credential Manager authentication succeeded for osamaali-albawaba. Existing
+history was pushed to origin/main and verified through the GitHub API. The remote
+repository is private and its default branch is main. All 29 foundation files were
+visible in the remote tree.
 
 ## LAST COMPLETED TASK
 
-Renamed the current branch from master to main at the user's request without
-rewriting existing history. Updated agent synchronization commands to main.
-Started Git Credential Manager device authentication for osamaali-albawaba;
-GitHub requires the user's authorization. Offline foundation checks and all 18
-tests passed again. Phase 1 remains unauthorized.
+Authenticated Git, pushed the preserved main history, and verified remote commit
+abd66ef0e42c5aada1da79686d848838504ed1b5 and all Phase 0 files.
+GitHub Actions run 37451868454 completed successfully, including Python tests,
+foundation validation, handoff enforcement and TypeScript `npm run typecheck`.
+Run: https://github.com/osamaali-albawaba/news-intelligence-engine/actions/runs/37451868454
+This handoff records that verified run; its own documentation commit gets a new
+CI run, which must also be checked after push. Phase 1 remains unauthorized.
 
 Created architecture documentation, SQL schema, source and AI-provider contracts,
 manual/scheduled scan contracts, configurable audience/source/scoring/budgets,
@@ -44,18 +48,18 @@ No real collectors, providers, endpoints or application UI are implemented.
 ## KNOWN ISSUES
 
 - Node/npm were not found on PATH or common installation paths; local TypeScript
-  typecheck could not run. CI is configured to run it, but CI has not executed.
+  typecheck could not run locally. It passed in GitHub Actions run 37451868454.
   package-lock.json is not generated yet; create/review it when npm is available.
 - No cloud deployment, D1 remote verification, credentials or live-source permission review.
-- Origin exists; device authentication is awaiting user authorization. Local
-  commits are not yet synchronized. Remote branch/history has not been verified.
+- GitHub authentication and primary synchronization succeeded. Existing history
+  was preserved; no force push was used.
 - Free-tier timing/AI quotas are best effort and need measurement before live operation.
 - Referential evidence validation does not assess factual truth or semantic entailment.
 
 ## NEXT TASK
 
-After device authorization, verify the user-reported empty remote, push main,
-confirm origin/main and Phase 0 files, and inspect the GitHub Actions CI result.
+Push this handoff documentation update and confirm its origin/main commit and CI
+result. Then stop; do not begin Phase 1 without explicit user approval.
 Never force push or push it to the AWS evidence repository. Commit identity is available
 with `git log -1 --format=%H` (not embedded here to avoid a self-referential hash).
 Stop for explicit Phase 1 approval. After approval, implement permitted collectors
