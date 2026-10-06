@@ -36,7 +36,10 @@ class ContractTests(unittest.TestCase):
                                  tuple(UUID(i) for i in a['evidence_ids']), a['verification_status'])
                        for a in self.fixture['angles'])
         self.result = AnalysisResult('Synthetic schedule change', statements, angles,
-                                     ('Synthetic fixture only',), 'fixture', 'fixture-v1', None, None)
+                                     ('Synthetic fixture only',), 'fixture', 'fixture-v1', None, None,
+                                     summary_evidence_ids=(passages[0].id,),
+                                     why_now='A newly announced synthetic change',
+                                     why_now_evidence_ids=(passages[0].id,))
 
     def test_fixture_preserves_four_statement_kinds_and_valid_support(self):
         self.assertEqual({s.kind for s in self.result.statements}, set(StatementKind))

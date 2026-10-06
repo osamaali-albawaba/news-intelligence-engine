@@ -1,166 +1,138 @@
-# Architecture
+# Architecture ? approved v1.1 / R1.0 foundation
 
-## Product invariant
+## Authority and runtime boundaries
 
-Rank supported **angles within event clusters**, not importance or headline
-popularity alone. Preserve a small set of strong recommendations over a padded
-list. A saturated event can contain a valuable, under-covered angle.
+User-approved v1.1 planning lives in `docs/planning/`; original attachment bytes
+are retained. This document describes R1.0 implementation, not a claim that R1
+runtime features exist. The former remote-first design is archived at starting
+main 0900eafefd8fa8829e45a64923755f48afd220e7 and superseded in DECISIONS.md.
 
-## Components and runtime
+Pilot target: modular Python monolith, small loopback HTTP boundary, one durable
+local worker, local SQLite, and local browser UI. React/TypeScript/Vite remains
+proposed. FastAPI is a candidate for R1.1, not an installed dependency or selected
+locked runtime today. Bind to 127.0.0.1 and require local session/Origin validation
+before mutations. No OAuth, company AWS, remote worker or cloud requirement.
+The device must be awake for work; old cross-device/continuous uptime goals are
+future capabilities. Storage/execution/auth boundaries remain replaceable.
 
-| Component | Target implementation | Phase 0 artifact |
-| --- | --- | --- |
-| Browser dashboard | React, TypeScript, Vite; static assets on Cloudflare | `apps/dashboard/README.md` |
-| Private API | Small TypeScript Worker | `apps/api/boundary.ts`, `contracts/api.ts` |
-| Persistence | Cloudflare D1; SQLite-compatible migrations | `migrations/0001_foundation.sql` |
-| Collection/analysis | Python 3.12+ on GitHub Actions | `engine/contracts.py` |
-| AI | Configurable provider; Gemini first, replaceable | `AIProvider` protocol; no real provider |
-| Authentication | GitHub OAuth, allowlisted numeric user ID | Environment placeholders and API security contract |
-| Performance | Optional independent connector; Marfeel later | `PerformanceConnector` protocol |
+GitHub holds code, approved plans, config templates and synthetic fixtures. It
+never holds runtime newsroom data, credentials or performance exports. Current
+visibility must be verified from the remote, not inferred from old handoffs.
 
-GitHub is the source of truth for code and configuration. D1 is the runtime
-store for items, jobs, recommendations, feedback and performance. Data never
-depends on a continuously running laptop. Python runner credentials stay in
-GitHub Secrets; API credentials stay in Worker secrets, never browser assets.
+## Implemented offline boundaries
 
-## Funnel
+| Module | R1.0 implementation |
+| --- | --- |
+| engine/config.py | Validate manual-on/scheduled-off, all capabilities disabled, sections and weights |
+| engine/alignment.py | Immutable effective JSON capture, scan intent and compatible-scope hashes, fail-closed capability guard |
+| engine/contracts.py | Adapter/provider protocols; four claim kinds; zero-or-more angles; summary/Why Now support |
+| engine/cache.py | Analysis evidence/model/prompt/audience/extraction/translation/behavior key; separate score key |
+| engine/storage.py | Offline ordered migrations; no runtime DB startup |
+| migrations/0002_local_lineage.sql | Additive version/recommendation/impression/event/article lineage |
+| contracts/api.ts | v2 wire declarations, optional angle and separate snapshot/impression/verification identities |
+| scripts/check_foundation.py | All migrations, planning/archive integrity, handoff, source screening |
 
-1. Collect broadly from reviewed, permitted source adapters. Save allowed raw data.
-2. Normalize canonical URLs, deduplicate exact content, preserve syndication origin.
-3. Cluster event reports by content, entities, location and time.
-4. Cheap shortlist before AI. Fetch permitted supporting bodies for candidates.
-5. Analyze selected clusters with evidence passage IDs; validate structured output.
-6. Assess each angle against observed coverage, then score eligible angles.
-7. Show cached recommendations, explanations, alternatives and source support.
-8. Persist editorial feedback and article URLs. Performance connectors come later.
+No HTTP handler, scan queue admission/execution, network acquisition, model call,
+clustering, scoring computation, UI, retention worker or cloud setup is added.
+Capability checks must precede future dispatch; changing a provider environment
+variable cannot authorize a disabled capability. Offline tests prove guard refusal,
+not functioning live integrations.
 
-Clustering, extraction, ranking and live pipeline implementations are outside
-Phase 0. The SQL model establishes their storage boundaries without running them.
+## Scan intent and future local execution
 
-## Scheduled collection and SCAN NOW
+POST /api/scans contract carries schema version, retry key, section, freshness
+24/48/72, integer result limit 1-10 and optional profile. Future boundary resolves
+and persists full effective settings, user/org and settings defaults/overrides.
+One-scan overrides never mutate saved defaults. Current capture contains audience,
+source configuration, scoring, capability/budget and section settings.
 
-Proposed endpoints in later phases:
+Identical requester/key with identical normalized intent/config replays the prior
+response; a different payload under the same key is a conflict. Compatible section,
+window/count/profile/config scopes may join. Incompatible scopes queue behind one
+worker; never silently join News and Business. Hash contracts are implemented;
+transactional admission, conflict response and worker recovery belong to R1.1.
+Legacy global-scope jobs remain legacy data, not eligible for blind joining.
 
-- `POST /api/scans`: authenticated SCAN NOW request with idempotency key.
-- `GET /api/scans/{id}`: progress, queue status, limitations, failure information.
-- `GET /api/opportunities`: cached results and collection/analysis timestamps.
-- `POST /api/feedback`: append an editorial decision, optionally record article URL.
+Future worker: short SQLite transactions, durable lease/ownership token, bounded
+network work outside locks, checkpoints, cancellation and restart recovery. API
+returns request/job IDs immediately and UI polls committed progress. No scheduler
+or GitHub dispatch rescues jobs in the local pilot. No total scan-latency SLA.
+Manual intent can be configured while execution is still disabled in R1.0.
 
-Manual and scheduled triggers share the same pipeline and global scan scope.
-Inside a database transaction, replay an existing requester/idempotency-key
-request or join an active scan; otherwise create a queued job and its request.
-The database partial unique index prevents overlapping queued/running scans.
-Joining is visible: SCAN NOW may join an already running scan rather than start
-another. Each request retains its trigger and requester for audit.
+## Evidence, versioning and optional angles
 
-After committing the job, the server dispatches a future GitHub Actions workflow
-using a least-privilege server-side credential. Return HTTP 202 with job ID, not
-an instantaneous analysis promise. Dispatch failures leave recoverable queued
-work; a later schedule discovers it. UI polls progress and retains old results.
+Preserve reported fact, attributed claim, editorial interpretation and possible
+consequence. Summary/Why Now need known supporting passages or explicitly labeled
+system observations for Why Now. Risk statements use the same typed support.
+Reference validation establishes provenance only; semantic entailment, documented
+verification and actual acquisition rights remain R1.3 work and human review.
 
-The future runner atomically claims a lease, heartbeats, records partial source
-success, and releases/completes work. Reclaim expired leases with bounded retries
-and an ownership token so stale runners cannot overwrite a newer owner's results.
-Use a shared Actions concurrency group as an additional guard, not the only lock.
-Do not cancel an active scan when a new manual request arrives.
+Angle count may be zero. Story-level score/recommendation/action/article linkage
+must work without an angle. Rumor leads may be visible with UNVERIFIED or SINGLE
+SOURCE labels; confidence does not grant factual truth. User labels VERIFIED,
+REPORTED, SINGLE SOURCE, UNVERIFIED, ORIGIN UNKNOWN are separate from machine support
+states supported/needs_review/unconfirmed/not_analyzed. No automated publish-ready
+state or minimum confidence threshold suppresses all investigative leads.
 
-Apply server-side authentication, CSRF/Origin protection, daily manual limits,
-cooldowns, item/time/token budgets and sanitized errors to both trigger paths.
-Validate written URLs and redirects; allow only public HTTP(S) addresses, block
-private/reserved networks and re-check every redirect before future content fetches.
-No user-supplied URL is fetched in Phase 0.
+Canonical URL identifies a document. Immutable document versions preserve exact
+allowed text; cluster revisions freeze membership version IDs. Evidence passage
+version links are backfilled additively. Source versions preserve available
+acquisition config. Category/tier do not imply reliability, permission or independent
+origin. en/ar discovery and English output are profile settings, not implemented
+translation/clustering. The Node definitions remain unconfirmed.
 
-Hourly scheduling at minute 17 is the initial proposal. A private GitHub Free
-account includes 2,000 runner minutes/month, shared with other workflows. At
-720 scans/month and two minutes each, collection uses about 1,440 minutes before
-manual scans and CI. Measure actual runtime before promising this cadence.
-Schedules can be delayed or dropped. Manual dispatch can also queue. This is
-best-effort freshness, not a breaking-news SLA.
+## Migration and lineage
 
-**Phase 0 installs CI only. No cron or collection workflow is active.**
+0001 is untouched. 0002 retains legacy tables/IDs and backfills version records,
+legacy recommendations, event and article edges. Old angle-only scores remain
+readable; new opportunity_scores can target a story revision or angle. Do not
+write new product behavior into old angle-required tables. Unknown historical
+source acquisition version, full effective settings, section, score-at-exposure
+and impression history are not invented. Config reconstructions explicitly carry
+reconstruction_complete=0. Legacy recommendation support status is retained, but
+verification is ORIGIN UNKNOWN rather than a fabricated verification decision.
 
-## Scalable source registry
+New complete config snapshots include JSON and hash, not only a version label.
+Recommendations retain analysis/config/score references. Impressions preserve
+actual rank, day/session, display projection and retry identity. User events are
+append-only/idempotent and permit compensating corrections. Manual article URLs
+can link multiple recommendations, with optional angle and unknown publication
+stamp. No content is automatically fetched from a recorded article URL.
 
-The registry accepts arbitrary source count; 12–20 is an initial operating choice,
-not a schema limit. Use stable source IDs, indexed categories and per-source due
-times. Registry size and per-run batch budget are independent. Later collectors
-must choose due sources fairly, with priority plus aging to prevent starvation.
-Use bounded concurrency, per-host rate limits, conditional requests and backoff.
+Immutable snapshots are SQL-protected from casual update/delete. Future rights-
+required removal must explicitly handle source-aware tombstones and permitted
+redaction while retaining legal provenance; these triggers must not be used to
+justify keeping forbidden text. No retention/deletion implementation exists here.
+Evidence_availability records state without replacing original claims. Local
+recovery/consistent backup/restore comes in R1.5, with an owner-controlled off-device
+destination required before relying on data against device loss.
 
-Category describes content type: wire, major international, regional, official,
-entertainment, specialist, social/trend, other. Tier describes editorial handling:
-primary, established, discovery. Neither guarantees factual accuracy. Track common
-publisher ownership and syndicated origin to avoid false corroboration.
-Permission records explicitly govern retention and AI transmission. Robots
-compliance is necessary where applicable but does not establish licensing rights.
+Tests apply schema from empty and from populated v1; verify preserved IDs, story-only
+feedback/article links, repeat migration, null constraints and immutable reload.
+Only synthetic temporary databases are migrated. Actual runtime data elsewhere is
+unknown; do not apply 0002 to an owner database without backup/restore review.
 
-## Evidence and AI boundaries
+## Scoring and cache
 
-Every statement retains one of four kinds:
+Metrics retain measured/estimated/not_measured, nulls, basis and observation/
+methodology/unit metadata. Performance values remain native units in future R3,
+not 0-100. Optional social/search have no active weight. The provisional fixed R1
+base uses audience relevance, freshness, newsworthiness and curiosity. It is a
+configuration proposal, not calculated ranking or calibration. A missing required
+weighted input withholds score, with no per-card renormalization. Confidence is
+shown separately. Coverage/novelty refer to monitored samples only.
 
-- `reported_fact`: supported report of what happened.
-- `attributed_claim`: what an identified source says; not automatically fact.
-- `editorial_interpretation`: an explicitly labeled editorial inference.
-- `possible_consequence`: a contingent outcome, not an established development.
+Analysis key includes evidence, provider/model, prompt/schema, audience and
+extraction/translation/behavior versions. Score key uses analysis/subject and
+scoring formula/config. Weight-only changes do not force a new identical AI call.
+Historical scores and display projections never get overwritten by re-scoring.
 
-Statements and angles reference persisted source passages and immutable content
-hashes. Contradictions are retained. Provider results must not introduce unknown
-evidence references. Referential checks alone do not establish truth: later
-semantic validation and human editorial review remain necessary.
+## Deferred and prerequisites
 
-`AIProvider` returns provider-independent structured results. Provider/model are
-configured through environment variables and a future explicit registry. Unknown
-providers fail clearly; never silently invoke a paid fallback. Quota, timeouts and
-malformed outputs are typed failures. External content is untrusted prompt data.
-
-Cache keys include content snapshot, provider, model, prompt version, output-schema
-version and the audience profile. Reanalyze changed evidence or configuration, not
-identical content. Provider usage may itself be unknown; store null, not zero.
-
-## Missing metrics, coverage and scoring
-
-Each metric stores status, nullable value, and basis. `not_measured` requires null;
-measured/estimated values are bounded 0–100. Social and search absence remains
-visible. Coverage scores describe a timestamped monitored-source sample, not the
-entire web. Novelty compares claims/consequences, not cosmetic title differences.
-
-The proposed score weights are versioned configuration, not permanent constants.
-No scoring implementation exists yet. A missing required weighted component
-withholds the overall score instead of converting it to zero. Metrics that have
-no weight can remain missing without blocking other valid estimates. Source
-confidence is an eligibility gate, not merely a compensable score component.
-Unconfirmed/needs-review angles cannot become publish-ready due to high traffic
-potential. Expected traffic is an experimental relative estimate, not pageviews.
-
-## Storage and retention
-
-Migration includes sources, raw items, documents/entities, clusters/membership,
-analyses, passages, typed statements, angles/support, coverage samples, scores,
-jobs/requests/runs, user profiles, append-only feedback, written articles and
-future performance observations. Foreign keys and checks protect null semantics,
-attribution, score bounds, retry identity and concurrent active-job uniqueness.
-
-The application supplies UUIDs and UTC ISO-8601 timestamps. SQL accepts text IDs
-for portability; application boundaries validate UUIDs and timestamp formats.
-Migration is locally verified with SQLite. Actual D1 deployment remains untested.
-Production writes must atomically persist statements/angles with evidence links;
-foreign keys cannot enforce the existence of at least one supporting passage.
-
-Proposed transient retention is 30 days, constrained by each source's permissions.
-Deletion jobs must respect saved evidence references; do not delete a referenced
-passage while silently retaining its unsupported recommendation. No retention
-job or backup/export process runs in Phase 0. Add operational backup/restore checks
-before production.
-
-## Cost and access references
-
-Planning references checked 2026-10-06; recheck before deployment:
-
-- [Workers limits](https://developers.cloudflare.com/workers/platform/limits/): free CPU allowance makes heavy processing unsuitable for the API Worker.
-- [D1 pricing](https://developers.cloudflare.com/d1/platform/pricing/): bounded storage and daily row quotas.
-- [GitHub Actions billing](https://docs.github.com/en/billing/concepts/product-billing/github-actions): account-wide private runner allowance.
-- [GitHub schedules](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows): best-effort scheduling.
-- [Gemini pricing](https://ai.google.dev/gemini-api/docs/pricing) and [limits](https://ai.google.dev/gemini-api/docs/rate-limits): model/account-dependent access and data-use terms.
-- [Marfeel Reporting API](https://www.marfeel.com/docs/analytics/api-docs/marfeel-reporting-api-developer-guide): official connector possible subject to account entitlement.
-
-No paid service or unauthorized source access is enabled by this foundation.
+R1.1: local environment/launcher decision, first confirmed section, reviewed
+permitted source dossier. R1.3: actual free-only provider project/model entitlement,
+quota/data-policy/cost test. R1.5: editorial baseline, permission-aware retention
+and demonstrated off-device backup/restore. R2 research, R3 Marfeel/performance,
+R4 evaluated owner-approved learning, R5 SaaS/CMS/automation are deferred.
+No paid service is enabled by planning approval. Subscription access is not API
+entitlement. No source/AI call, schedule or infrastructure was activated in R1.0.

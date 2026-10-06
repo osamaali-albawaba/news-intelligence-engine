@@ -1,1 +1,5 @@
 * text=auto eol=lf
+
+# Preserve the approved planning package bytes, including its own line endings.
+docs/planning/*.md -text
+docs/baseline/*.zip -text

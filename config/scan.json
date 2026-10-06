@@ -2,17 +2,17 @@
   "schema_version": 1,
   "execution_enabled": false,
   "scheduled": {
-    "enabled": true,
-    "cron_utc": "17 * * * *",
-    "timezone": "UTC",
-    "description": "Proposed hourly schedule; no collection workflow installed in Phase 0"
+    "enabled": false,
+    "cron_utc": null,
+    "description": "Automation deferred; R1 pilot is manual-only"
   },
   "manual": {
     "enabled": true,
     "label": "SCAN NOW",
     "cooldown_seconds": 120,
-    "requires_authentication": true,
-    "join_active_scan": true
+    "requires_authentication": false,
+    "join_active_scan": "compatible_scope_only",
+    "requires_local_session": true
   },
   "limits": {
     "max_sources_per_run": 100,
@@ -21,8 +21,15 @@
     "max_ai_input_tokens_per_day": 90000,
     "max_ai_output_tokens_per_day": 15000,
     "max_run_seconds": 120,
-    "max_manual_scans_per_day": 10,
-    "github_minutes_target_per_month": 1500
+    "max_manual_scans_per_day": 10
   },
-  "notes": "Starting budgets only. Tune against measured runtime and actual provider quotas."
+  "notes": "Budgets remain provisional, not entitlement or latency promises. No execution in R1.0.",
+  "runtime": "local",
+  "capabilities": {
+    "live_collection": false,
+    "ai_calls": false,
+    "scheduled_scans": false,
+    "cloud_resources": false,
+    "paid_services": false
+  }
 }

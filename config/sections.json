@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "default_section": "news",
+  "freshness_hours": 24,
+  "result_limit": 10,
+  "workspace_timezone": "Asia/Amman",
+  "timezone_status": "proposed_pending_owner_confirmation",
+  "discovery_languages": [
+    "en",
+    "ar"
+  ],
+  "output_language": "en",
+  "sections": {
+    "news": {
+      "label": "News",
+      "definition_status": "pending",
+      "inclusions": [],
+      "exclusions": []
+    },
+    "business": {
+      "label": "Business",
+      "definition_status": "pending",
+      "inclusions": [],
+      "exclusions": []
+    },
+    "the_node": {
+      "label": "The Node",
+      "definition_status": "pending",
+      "inclusions": [],
+      "exclusions": []
+    }
+  }
+}

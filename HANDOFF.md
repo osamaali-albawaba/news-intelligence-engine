@@ -2,74 +2,68 @@
 
 ## CURRENT STATUS
 
-Phase 0 foundation completed and validated. Phase 1 is not authorized. Owner:
-Codex; no concurrent feature owner. Independent Git repository on branch main
-under the AWS evidence workspace.
-Origin configured as https://github.com/osamaali-albawaba/news-intelligence-engine.git.
-Git Credential Manager authentication succeeded for osamaali-albawaba. Existing
-history was pushed to origin/main and verified through the GitHub API. The remote
-repository is private and its default branch is main. All 29 foundation files were
-visible in the remote tree.
+Approved baseline: planning v1.1 by explicit user request, 2026-10-06. Authorized
+scope: R1.0 Foundation Alignment only. Owner: Codex, no concurrent feature owner.
+Branch: feat/r1-0-foundation-alignment. Checkout: C:/Projects/news-intelligence-engine.
+Starting main: 0900eafefd8fa8829e45a64923755f48afd220e7; history preserved and archived.
+Origin: https://github.com/osamaali-albawaba/news-intelligence-engine.git.
+Local checks pass; commit/push and remote CI confirmation pending for this branch.
 
 ## LAST COMPLETED TASK
 
-Authenticated Git, pushed the preserved main history, and verified remote commit
-abd66ef0e42c5aada1da79686d848838504ed1b5 and all Phase 0 files.
-GitHub Actions run 37451868454 completed successfully, including Python tests,
-foundation validation, handoff enforcement and TypeScript `npm run typecheck`.
-Run: https://github.com/osamaali-albawaba/news-intelligence-engine/actions/runs/37451868454
-This handoff records that verified run; its own documentation commit gets a new
-CI run, which must also be checked after push. Phase 1 remains unauthorized.
-
-Created architecture documentation, SQL schema, source and AI-provider contracts,
-manual/scheduled scan contracts, configurable audience/source/scoring/budgets,
-synthetic fixtures, tests, CI and handoff enforcement. All 18 offline tests passed.
-Foundation checker passed configuration, handoff, Python syntax, JSON, SQLite
-migration integrity and obvious-secret screening. No live service was contacted.
+Imported nine Markdown files unchanged into docs/planning, with SHA-256 verification.
+Preserved user's file named docs at docs/legacy/original-docs-file.txt, unchanged.
+Aligned docs and safe config to local-first/manual-only. Added optional-angle,
+summary/Why Now, effective-config and scope contracts; additive migration 0002;
+populated v1 and story-only reload fixtures. No live capability was enabled.
 
 ## FILES CHANGED
 
-Initial project files: README.md, ARCHITECTURE.md, ROADMAP.md, AGENTS.md,
-HANDOFF.md, DECISIONS.md, .env.example, .gitignore, .gitattributes, pyproject.toml, package.json,
-tsconfig.json; engine/contracts.py, engine/cache.py, engine/config.py,
-engine/__init__.py; config/*.json; contracts/api.ts; apps/api/boundary.ts;
-apps/dashboard/README.md; prompts/README.md; migrations/0001_foundation.sql;
-tests/test_foundation.py, tests/fixtures/synthetic_cluster.json;
-scripts/check_foundation.py; .github/workflows/ci.yml.
-No parent repository files or evidence records changed.
+README, ARCHITECTURE, ROADMAP, DECISIONS, AGENTS, HANDOFF; .env.example, .gitignore,
+.gitattributes; config/scan.json, scoring.json, sections.json, sources.example.json;
+engine/contracts.py, config.py, cache.py, alignment.py, storage.py; prompts/README.md;
+contracts/api.ts, apps/api/boundary.ts, apps/dashboard/README.md;
+migrations/0002_local_lineage.sql; scripts/check_foundation.py;
+tests/test_foundation.py, test_alignment.py, fixtures/legacy_v1.sql;
+.github/workflows/ci.yml and package-lock.json;
+docs/planning/*, docs/baseline/*, docs/legacy/original-docs-file.txt,
+docs/R1_0_ALIGNMENT_CHECKLIST.md. Migration 0001 and parent AWS repository unchanged.
+Added package-lock.json and switched CI to npm ci --ignore-scripts; locked TypeScript development dependency only.
 
 ## WHAT WORKS
 
-Offline Python contracts and configuration; schema intended for SQLite/D1;
-synthetic evidence validation; nullable metrics; cache invalidation dimensions;
-database constraints for overlap/idempotency, attribution and append-only feedback.
-No real collectors, providers, endpoints or application UI are implemented.
+Offline section/config capture and compatibility hashes, fail-closed capability
+guard, adapter/provider independence, typed evidence and null semantics. Migration
+from empty/populated v1 preserves legacy IDs/rows, immutable versions and incomplete
+legacy config. New story-only recommendation/score/events/article edges persist
+across reload. Synthetic tests prove storage/contracts, not a usable live engine.
 
 ## KNOWN ISSUES
 
-- Node/npm were not found on PATH or common installation paths; local TypeScript
-  typecheck could not run locally. It passed in GitHub Actions run 37451868454.
-  package-lock.json is not generated yet; create/review it when npm is available.
-- No cloud deployment, D1 remote verification, credentials or live-source permission review.
-- GitHub authentication and primary synchronization succeeded. Existing history
-  was preserved; no force push was used.
-- Free-tier timing/AI quotas are best effort and need measurement before live operation.
-- Referential evidence validation does not assess factual truth or semantic entailment.
+No local server/launcher/UI/worker or real source/AI implementation. No owner runtime
+DB was supplied; its existence elsewhere is unknown. Semantic evidence entailment
+is not established by referential checks. Legacy settings/exposure unknowns remain
+explicit. Source rights and free model entitlement are unverified. Section definitions,
+The Node taxonomy and timezone need owner confirmation. Node/npm absent on initial
+PATH; verified portable Node 22.20.0 used from a temporary tooling directory.
+Local TypeScript check passed; npm audit reported zero vulnerabilities. No cloud or paid resources provisioned.
 
 ## NEXT TASK
 
-Push this handoff documentation update and confirm its origin/main commit and CI
-result. Then stop; do not begin Phase 1 without explicit user approval.
-Never force push or push it to the AWS evidence repository. Commit identity is available
-with `git log -1 --format=%H` (not embedded here to avoid a self-referential hash).
-Stop for explicit Phase 1 approval. After approval, implement permitted collectors
-and shared scheduled/manual job execution; no AI or dashboard until later phases.
-Recheck service quotas and access terms before enabling live use.
+Finish R1.0 checks, commit/push this branch and verify remote CI; stop before R1.1.
+R1.1 requires separate approval plus G01 environment/launcher facts, G02 first section
+rules and G03 reviewed first source dossier/sample rights. G04 free-only API/provider
+verification is required before R1.3. G05 editorial baseline and G06 off-device
+backup/restore are later pilot gates. Do not ask for all later decisions now.
 
 ## TEST INSTRUCTIONS
 
-From this project directory: `python scripts/check_foundation.py` and
-`python -m unittest discover -s tests -v`. For TypeScript: install Node.js 22+
-and run `npm install --ignore-scripts`, then `npm run typecheck`.
-Before subsequent commits: `python scripts/check_foundation.py --handoff-base <starting-commit>`.
-All Phase 0 tests use synthetic data and no external services.
+python scripts/check_foundation.py
+python -m unittest discover -s tests -v
+python scripts/check_foundation.py --handoff-base 0900eaf
+npm ci --ignore-scripts
+npm run typecheck
+All engine checks use synthetic/local data; Git/CI/dependency tooling is separate
+from prohibited live collection/AI. Local foundation/handoff checks, all 27 Python tests, TypeScript typecheck and Git
+whitespace checks passed outside unchanged planning Markdown (its original two-space
+line breaks are preserved intentionally). Remote synchronization and branch CI pending.

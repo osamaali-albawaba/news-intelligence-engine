@@ -1,5 +1,7 @@
 """Offline config, syntax, schema, secrets and handoff checks; no collection."""
 import argparse
+import hashlib
+import zipfile
 import ast
 import json
 from pathlib import Path
@@ -11,6 +13,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from engine.config import validate_config  # noqa: E402
+from engine.storage import migrate  # noqa: E402
 
 HANDOFF_SECTIONS = (
     'CURRENT STATUS', 'LAST COMPLETED TASK', 'FILES CHANGED', 'WHAT WORKS',
@@ -33,6 +36,16 @@ def main() -> int:
     parser.add_argument('--handoff-head', default=None, help='Optional committed head for CI diff')
     args = parser.parse_args()
     validate_config(ROOT / 'config')
+    manifest = json.loads((ROOT / 'docs/baseline/manifest.json').read_text(encoding='utf-8'))
+    files = list((ROOT / 'docs/planning').glob('*.md'))
+    if len(files) != 9 or {p.name for p in files} != set(manifest['planning_sha256']):
+        raise ValueError('Expected exactly nine approved planning Markdown files')
+    for path in files:
+        if hashlib.sha256(path.read_bytes()).hexdigest() != manifest['planning_sha256'][path.name]:
+            raise ValueError('Approved planning bytes changed: ' + path.name)
+    archive = ROOT / 'docs/baseline' / manifest['archive']
+    if hashlib.sha256(archive.read_bytes()).hexdigest() != manifest['archive_sha256']:
+        raise ValueError('Archived main baseline changed')
     validate_handoff((ROOT / 'HANDOFF.md').read_text(encoding='utf-8'))
     for path in ROOT.rglob('*.py'):
         if not any(part in {'.venv', 'node_modules'} for part in path.parts):
@@ -41,7 +54,7 @@ def main() -> int:
                  *list((ROOT / 'tests/fixtures').glob('*.json'))]:
         json.loads(path.read_text(encoding='utf-8'))
     with sqlite3.connect(':memory:') as db:
-        db.executescript((ROOT / 'migrations/0001_foundation.sql').read_text(encoding='utf-8'))
+        migrate(db, ROOT / 'migrations')
         assert db.execute('PRAGMA integrity_check').fetchone()[0] == 'ok'
         assert not db.execute('PRAGMA foreign_key_check').fetchall()
     # Obvious-secret screening, not a claim of comprehensive security auditing.
@@ -53,7 +66,11 @@ def main() -> int:
             continue
         if path.name == '.env' or (path.name.startswith('.env.') and path.name != '.env.example'):
             continue  # ignored local configuration is not a source artifact
-        content = path.read_text(encoding='utf-8')
+        if path.suffix == '.zip':
+            with zipfile.ZipFile(path) as archive:
+                content = '\n'.join(archive.read(name).decode('utf-8') for name in archive.namelist() if not name.endswith('/'))
+        else:
+            content = path.read_text(encoding='utf-8')
         if any(re.search(pattern, content) for pattern in patterns):
             raise ValueError(f'Possible secret detected in {path.relative_to(ROOT)}; value withheld')
     if args.handoff_base:
@@ -67,7 +84,7 @@ def main() -> int:
             ).splitlines()
         if names and 'HANDOFF.md' not in names:
             raise ValueError('Changed work requires an updated HANDOFF.md')
-    print('PASS: configuration, handoff, Python syntax, JSON, SQLite migration, obvious-secret screening')
+    print('PASS: configuration, handoff, Python syntax, JSON, all migrations, approved baseline hashes, obvious-secret screening')
     return 0
 
 

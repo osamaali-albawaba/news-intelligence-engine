@@ -12,3 +12,12 @@ dist/
 *.sqlite*
 .pytest_cache/
 coverage/
+
+# Local pilot state and exports never belong in Git
+runtime/
+backups/
+exports/
+logs/
+*.db
+*.db-wal
+*.db-shm

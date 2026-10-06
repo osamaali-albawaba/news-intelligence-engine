@@ -1,11 +1,26 @@
 {
   "schema_version": 1,
   "tiers": {
-    "primary": {"description": "Direct primary material; credibility still assessed per claim"},
-    "established": {"description": "Established reporting; verify provenance and independence"},
-    "discovery": {"description": "Discovery signals requiring corroboration"}
+    "primary": {
+      "description": "Direct primary material; credibility still assessed per claim"
+    },
+    "established": {
+      "description": "Established reporting; verify provenance and independence"
+    },
+    "discovery": {
+      "description": "Discovery signals requiring corroboration"
+    }
   },
-  "categories": ["wire", "major_international", "regional", "official", "entertainment", "specialist", "social_trend", "other"],
+  "categories": [
+    "wire",
+    "major_international",
+    "regional",
+    "official",
+    "entertainment",
+    "specialist",
+    "social_trend",
+    "other"
+  ],
   "sources": [
     {
       "id": "synthetic-official",
@@ -15,9 +30,13 @@
       "enabled": false,
       "category": "official",
       "tier": "primary",
-      "languages": ["en"],
+      "languages": [
+        "en"
+      ],
       "regions": [],
-      "topics": ["business"],
+      "topics": [
+        "business"
+      ],
       "publisher_group": "synthetic-official",
       "syndication_origin": null,
       "poll_interval_minutes": 60,
@@ -29,7 +48,11 @@
         "reviewed_at": null,
         "retain_full_text": false,
         "send_text_to_ai": false
-      }
+      },
+      "sections": [
+        "news"
+      ],
+      "configuration_version": 1
     }
   ]
 }

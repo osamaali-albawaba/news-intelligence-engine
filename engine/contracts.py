@@ -1,5 +1,5 @@
 """Dependency-free contracts shared by future adapters and pipeline stages."""
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import StrEnum
 from typing import Mapping, Protocol, Sequence
 from uuid import UUID
@@ -23,6 +23,9 @@ class Metric:
     status: MeasurementStatus
     value: float | None
     basis: str
+    observed_at: str | None = None
+    methodology: str | None = None
+    unit: str = "index_0_100"
 
     def __post_init__(self) -> None:
         if not isinstance(self.status, MeasurementStatus):
@@ -62,6 +65,10 @@ class CollectionRequest:
     cursor: str | None
     max_items: int
     run_id: UUID
+    source_config_version: str = "legacy"
+    section: str = "news"
+    freshness_hours: int = 24
+    permissions: Mapping[str, object] = field(default_factory=dict)
 
 
 @dataclass(frozen=True)
@@ -76,6 +83,7 @@ class CollectionResult:
     items: tuple[DiscoveryItem, ...]
     next_cursor: str | None
     failure: SourceFailure | None = None
+    observations: tuple[Mapping[str, object], ...] = ()
 
 
 class SourceAdapter(Protocol):
@@ -98,6 +106,9 @@ class EvidencePassage:
     text: str
     locator: str
     content_hash: str
+    document_version_id: UUID | None = None
+    language: str | None = None
+    availability: str = "available"
 
 
 @dataclass(frozen=True)
@@ -112,7 +123,7 @@ class Statement:
             raise ValueError("Unknown statement kind")
         if not self.text.strip() or not self.evidence_ids:
             raise ValueError("Statements require text and evidence references")
-        if self.kind == StatementKind.ATTRIBUTED_CLAIM and not self.attribution:
+        if self.kind == StatementKind.ATTRIBUTED_CLAIM and (not self.attribution or not self.attribution.strip()):
             raise ValueError("Attributed claims require attribution")
 
 
@@ -133,6 +144,13 @@ class AnalysisRequest:
     audience_profile: Mapping[str, object]
     passages: tuple[EvidencePassage, ...]
     max_output_tokens: int
+    cluster_revision_id: UUID | None = None
+    effective_config_hash: str | None = None
+    extraction_version: str = "legacy"
+    translation_version: str = "none"
+    behavior_version: str = "1"
+    output_schema_version: str = "2"
+    system_observations: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -145,6 +163,11 @@ class AnalysisResult:
     model: str
     input_tokens: int | None
     output_tokens: int | None
+    summary_evidence_ids: tuple[UUID, ...] = ()
+    why_now: str = ""
+    why_now_evidence_ids: tuple[UUID, ...] = ()
+    why_now_observations: tuple[str, ...] = ()
+    risks: tuple[Statement, ...] = ()
 
 
 class AIProvider(Protocol):
@@ -178,7 +201,17 @@ def validate_analysis(result: AnalysisResult, request: AnalysisRequest) -> None:
     known = {passage.id for passage in request.passages}
     if not result.summary.strip() or not result.provider or not result.model:
         raise ValueError("Analysis requires summary and provider provenance")
-    for entry in (*result.statements, *result.angles):
+    if not result.summary_evidence_ids or not set(result.summary_evidence_ids) <= known:
+        raise ValueError("Summary requires known evidence support")
+    if not result.why_now.strip() or not (result.why_now_evidence_ids or result.why_now_observations):
+        raise ValueError("Why Now requires evidence or explicit system observations")
+    if not set(result.why_now_evidence_ids) <= known:
+        raise ValueError("Why Now contains unknown evidence")
+    if not set(result.why_now_observations) <= set(request.system_observations):
+        raise ValueError("Why Now contains unknown system observations")
+    if any(not observation.strip() for observation in result.why_now_observations):
+        raise ValueError("Empty system observation")
+    for entry in (*result.statements, *result.angles, *result.risks):
         if not entry.evidence_ids or not set(entry.evidence_ids) <= known:
             raise ValueError("Analysis contains missing or unknown evidence references")
     for angle in result.angles:

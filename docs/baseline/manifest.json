@@ -1,0 +1,18 @@
+{
+  "main_commit": "0900eafefd8fa8829e45a64923755f48afd220e7",
+  "planning_version": "1.1",
+  "approved_by": "user request in this task",
+  "planning_sha256": {
+    "ARCHITECTURE_RISK_REVIEW.md": "61b4c70b58ef7bb3c87bdc8354cd844015246af7ca20a70a62f30db45476c4c0",
+    "CROSS_RELEASE_CONTRACTS.md": "fc6df0309d61c6470f838ddf98f7e01f847edaa4e5c39cabb57111530e3df9f5",
+    "MASTER_PLAN_v1.1.md": "8b5b292c87ec54f5528c2249766ddb1e5cee1e1bfbdd5de4c652b9a2a3c3a6c3",
+    "PHASE_0_ALIGNMENT.md": "6e51892c816787caae932bd256a174abe51544808973afd989b71f2fd6f80d48",
+    "PRODUCT_BACKLOG.md": "6c36970751b335c68eaf020824676c8cf3b7f03766ed9410a4061b78fe4ab711",
+    "R1_EXECUTION_PLAN.md": "acea4786db50a1f4d4f50b0c3bc4a6be20a51833170366ffd262a3d2d28ab3d9",
+    "README.md": "fee1ab5ced385efec9af70eb235759880402043cb30e1063cc1bcb74c88625ef",
+    "RELEASE_MAP.md": "a36e404ebdf93d5eddf61c5b9afd4d1f992490be777a9f1da02c9994f1c0e233",
+    "REQUIREMENTS_TRACEABILITY.md": "ae250faa0cfc1a253b25136cc41a9246920e59674d2859f5af85eb21c143618c"
+  },
+  "archive": "foundation-main-0900eaf.zip",
+  "archive_sha256": "7f56f7d821d7b44d0593cbecf6f975f327405883d207cbb5a01b3b32a385f52b"
+}

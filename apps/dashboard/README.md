@@ -1,6 +1,8 @@
 # Dashboard boundary
 
-Phase 0 defines contracts only. No webpage, build, or live data is shipped yet.
-Phase 5 adds React + Vite, private GitHub login, opportunity cards, filters,
-feedback, and SCAN NOW with polling and visible queue/failure states.
-Never bundle credentials, provider keys, or dispatch tokens in frontend assets.
+R1.0 defines contracts only. No webpage, launcher or live endpoint exists.
+R1.1 introduces a minimal local browser screen alongside the first permitted signal.
+The proposed stack remains React/TypeScript/Vite with a local Python API. Loopback
+session and Origin checks are required before mutation. OAuth and hosting are deferred.
+News, Business and The Node are separate scopes; The Node's taxonomy is unconfirmed.
+Deep Research stays disabled until R2. Keep all secrets out of browser assets.

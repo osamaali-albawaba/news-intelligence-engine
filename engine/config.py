@@ -22,7 +22,7 @@ def validate_config(config_dir: Path) -> dict:
     configs = {name: json.loads((config_dir / filename).read_text(encoding="utf-8"))
                for name, filename in {
                    "sources": "sources.example.json", "audience": "audience.json",
-                   "scoring": "scoring.json", "scan": "scan.json",
+                   "scoring": "scoring.json", "scan": "scan.json", "sections": "sections.json",
                }.items()}
     for name, value in configs.items():
         require(value.get("schema_version") == 1, f"{name}: unsupported schema version")
@@ -51,9 +51,21 @@ def validate_config(config_dir: Path) -> dict:
     require(abs(sum(scoring["weights"].values()) - 1) < 1e-9, "Weights must sum to one")
     require(scoring["missing_policy"] == "withhold_score", "Missing metrics may not become zero")
     scan = configs["scan"]
-    require(scan["manual"]["enabled"] and scan["scheduled"]["enabled"],
-            "Both trigger modes must be configured")
-    require(scan["execution_enabled"] is False, "Phase 0 must not enable live execution")
+    require(scan["manual"]["enabled"] is True and scan["scheduled"]["enabled"] is False,
+            "R1 pilot requires manual-on / scheduled-off")
+    require(scan["runtime"] == "local", "R1 pilot runtime must be local")
+    require(all(value is False for value in scan["capabilities"].values()),
+            "R1.0 capabilities must remain disabled")
+    require(set(scan["capabilities"]) == {"live_collection", "ai_calls", "scheduled_scans", "cloud_resources", "paid_services"},
+            "Capability policy incomplete")
+    sections = configs["sections"]
+    require(set(sections["sections"]) == {"news", "business", "the_node"}, "Section registry incomplete")
+    require(sections["freshness_hours"] in (24, 48, 72), "Invalid freshness window")
+    require(type(sections["result_limit"]) is int and 1 <= sections["result_limit"] <= 10,
+            "Result target is up to ten; never pad results")
+    require(sections["discovery_languages"] == ["en", "ar"] and sections["output_language"] == "en",
+            "R1 discovery is en/ar; output is English")
+    require(scan["execution_enabled"] is False, "R1.0 must not enable live execution")
     require(scan["manual"]["cooldown_seconds"] > 0, "Manual cooldown must be positive")
     for field in ("max_sources_per_run", "max_items_per_source", "max_ai_calls_per_day",
                   "max_ai_input_tokens_per_day", "max_ai_output_tokens_per_day"):
