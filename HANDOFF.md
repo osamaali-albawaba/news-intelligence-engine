@@ -3,19 +3,19 @@
 ## CURRENT STATUS
 
 Phase 0 foundation completed and validated. Phase 1 is not authorized. Owner:
-Codex; no concurrent feature owner. Independent Git repository on branch master
+Codex; no concurrent feature owner. Independent Git repository on branch main
 under the AWS evidence workspace.
 Origin configured as https://github.com/osamaali-albawaba/news-intelligence-engine.git.
-Remote verification is blocked by unavailable GitHub authentication; no push occurred.
+Git Credential Manager device sign-in has started; user authorization is pending.
+The existing commits are preserved. No push has occurred yet.
 
 ## LAST COMPLETED TASK
 
-Configured the user-supplied separate origin. Remote access verification failed:
-`fatal: Cannot prompt because user interactivity has been disabled.`
-`fatal: unable to get password from user`
-No remote history was fetched or changed. GitHub authentication must be completed
-through Git Credential Manager or an authorized account connection, never by
-pasting credentials into chat or committing them. Phase 1 remains unauthorized.
+Renamed the current branch from master to main at the user's request without
+rewriting existing history. Updated agent synchronization commands to main.
+Started Git Credential Manager device authentication for osamaali-albawaba;
+GitHub requires the user's authorization. Offline foundation checks and all 18
+tests passed again. Phase 1 remains unauthorized.
 
 Created architecture documentation, SQL schema, source and AI-provider contracts,
 manual/scheduled scan contracts, configurable audience/source/scoring/budgets,
@@ -47,15 +47,15 @@ No real collectors, providers, endpoints or application UI are implemented.
   typecheck could not run. CI is configured to run it, but CI has not executed.
   package-lock.json is not generated yet; create/review it when npm is available.
 - No cloud deployment, D1 remote verification, credentials or live-source permission review.
-- Origin exists, but GitHub authentication is unavailable; local commits are not
-  synchronized to GitHub. Remote branch/history has not yet been verified.
+- Origin exists; device authentication is awaiting user authorization. Local
+  commits are not yet synchronized. Remote branch/history has not been verified.
 - Free-tier timing/AI quotas are best effort and need measurement before live operation.
 - Referential evidence validation does not assess factual truth or semantic entailment.
 
 ## NEXT TASK
 
-After GitHub authentication is available, inspect origin's branches/history and
-safely reconcile any existing commits before pushing the completed foundation.
+After device authorization, verify the user-reported empty remote, push main,
+confirm origin/main and Phase 0 files, and inspect the GitHub Actions CI result.
 Never force push or push it to the AWS evidence repository. Commit identity is available
 with `git log -1 --format=%H` (not embedded here to avoid a self-referential hash).
 Stop for explicit Phase 1 approval. After approval, implement permitted collectors

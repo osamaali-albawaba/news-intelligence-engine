@@ -39,7 +39,7 @@ Use small commits with `feat:`, `fix:`, `test:` or `docs:` prefixes.
 
 ```powershell
 git status --short
-git pull --ff-only origin master
+git pull --ff-only origin main
 python scripts/check_foundation.py
 python -m unittest discover -s tests -v
 npm install --ignore-scripts
