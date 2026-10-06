@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "profile_id": "default-editor",
+  "version": 1,
+  "output_language": "en",
+  "languages": [],
+  "regions": [],
+  "topics": [],
+  "excluded_topics": [],
+  "recognizable_entities": [],
+  "editorial_objective": "Find timely, evidence-supported editorial opportunities",
+  "notes": "Empty lists mean no geographic or topic restriction. Configure before live analysis."
+}

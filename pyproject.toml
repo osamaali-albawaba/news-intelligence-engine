@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "news-intelligence-engine"
+version = "0.0.1"
+description = "Evidence-first editorial opportunity engine: Phase 0 contracts"
+requires-python = ">=3.12"
+dependencies = []
+
+[tool.setuptools.packages.find]
+include = ["engine*"]

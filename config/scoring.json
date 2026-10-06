@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "formula_version": "proposal-v1",
+  "components": ["newsworthiness", "freshness", "breaking_potential", "curiosity", "controversy", "emotional_intensity", "recognizable_entities", "social_momentum", "search_interest", "visual_potential", "angle_novelty", "coverage_saturation", "source_confidence", "audience_relevance", "expected_short_term_traffic", "expected_long_tail_potential"],
+  "weights": {
+    "audience_relevance": 0.20,
+    "angle_novelty": 0.20,
+    "curiosity": 0.15,
+    "freshness": 0.15,
+    "newsworthiness": 0.10,
+    "recognizable_entities": 0.10,
+    "controversy": 0.10
+  },
+  "missing_policy": "withhold_score",
+  "eligibility": {"require_supported_angle": true, "minimum_source_confidence": 70},
+  "traffic_label": "Experimental relative estimate; not predicted pageviews",
+  "coverage_label": "Estimate within monitored sources; not a whole-web measurement"
+}

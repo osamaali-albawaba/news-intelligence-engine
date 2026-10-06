@@ -1,0 +1,39 @@
+{
+  "synthetic": true,
+  "notice": "Invented test data. Not current news and never a publishable recommendation.",
+  "cluster_id": "00000000-0000-4000-8000-000000000001",
+  "documents": [
+    {
+      "id": "00000000-0000-4000-8000-000000000002",
+      "url": "https://official.example.invalid/bulletin",
+      "headline": "Fictional port announces revised schedule",
+      "publisher_group": "fictional-official",
+      "text": "Fictional Port Authority announced a two-hour schedule change. Its director said delivery impacts remain uncertain."
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000003",
+      "url": "https://reporter.example.invalid/report",
+      "headline": "Schedule changes at fictional port",
+      "publisher_group": "fictional-reporter",
+      "text": "A fictional schedule change was announced. Traders said they were reviewing delivery plans; no delays were confirmed."
+    }
+  ],
+  "passages": [
+    {"id": "00000000-0000-4000-8000-000000000004", "document_id": "00000000-0000-4000-8000-000000000002", "text": "Fictional Port Authority announced a two-hour schedule change.", "locator": "paragraph 1"},
+    {"id": "00000000-0000-4000-8000-000000000005", "document_id": "00000000-0000-4000-8000-000000000002", "text": "Its director said delivery impacts remain uncertain.", "locator": "paragraph 1"}
+  ],
+  "statements": [
+    {"kind": "reported_fact", "text": "The fictional bulletin announces a schedule change.", "evidence_ids": ["00000000-0000-4000-8000-000000000004"], "attribution": null},
+    {"kind": "attributed_claim", "text": "Delivery impacts remain uncertain, according to the director.", "evidence_ids": ["00000000-0000-4000-8000-000000000005"], "attribution": "Fictional Port Authority director"},
+    {"kind": "editorial_interpretation", "text": "Uncertainty around delivery plans may offer an explainer angle.", "evidence_ids": ["00000000-0000-4000-8000-000000000005"], "attribution": null},
+    {"kind": "possible_consequence", "text": "Some delivery plans could change; an actual delay has not been established.", "evidence_ids": ["00000000-0000-4000-8000-000000000005"], "attribution": null}
+  ],
+  "angles": [
+    {"title": "What the fictional port schedule change could mean for delivery planning", "category": "explainer", "why_it_could_work": "The bulletin states the change but leaves its implications unresolved. An explainer can distinguish what is known from what requires verification.", "evidence_ids": ["00000000-0000-4000-8000-000000000004", "00000000-0000-4000-8000-000000000005"], "verification_status": "needs_review"}
+  ],
+  "metrics": {
+    "social_momentum": {"status": "not_measured", "value": null, "basis": "No social connector enabled"},
+    "search_interest": {"status": "not_measured", "value": null, "basis": "No authorized search-interest connector enabled"},
+    "angle_novelty": {"status": "estimated", "value": 60, "basis": "Synthetic two-publisher sample only"}
+  }
+}

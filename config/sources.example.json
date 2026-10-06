@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "tiers": {
+    "primary": {"description": "Direct primary material; credibility still assessed per claim"},
+    "established": {"description": "Established reporting; verify provenance and independence"},
+    "discovery": {"description": "Discovery signals requiring corroboration"}
+  },
+  "categories": ["wire", "major_international", "regional", "official", "entertainment", "specialist", "social_trend", "other"],
+  "sources": [
+    {
+      "id": "synthetic-official",
+      "name": "Synthetic Official Bulletin",
+      "adapter": "synthetic_fixture",
+      "url": "https://official.example.invalid/feed",
+      "enabled": false,
+      "category": "official",
+      "tier": "primary",
+      "languages": ["en"],
+      "regions": [],
+      "topics": ["business"],
+      "publisher_group": "synthetic-official",
+      "syndication_origin": null,
+      "poll_interval_minutes": 60,
+      "priority": 50,
+      "permissions": {
+        "review_status": "pending",
+        "robots_required": true,
+        "terms_url": null,
+        "reviewed_at": null,
+        "retain_full_text": false,
+        "send_text_to_ai": false
+      }
+    }
+  ]
+}

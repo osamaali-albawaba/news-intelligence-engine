@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "execution_enabled": false,
+  "scheduled": {
+    "enabled": true,
+    "cron_utc": "17 * * * *",
+    "timezone": "UTC",
+    "description": "Proposed hourly schedule; no collection workflow installed in Phase 0"
+  },
+  "manual": {
+    "enabled": true,
+    "label": "SCAN NOW",
+    "cooldown_seconds": 120,
+    "requires_authentication": true,
+    "join_active_scan": true
+  },
+  "limits": {
+    "max_sources_per_run": 100,
+    "max_items_per_source": 50,
+    "max_ai_calls_per_day": 15,
+    "max_ai_input_tokens_per_day": 90000,
+    "max_ai_output_tokens_per_day": 15000,
+    "max_run_seconds": 120,
+    "max_manual_scans_per_day": 10,
+    "github_minutes_target_per_month": 1500
+  },
+  "notes": "Starting budgets only. Tune against measured runtime and actual provider quotas."
+}
