@@ -7,10 +7,16 @@ scope: R1.0 Foundation Alignment only. Owner: Codex, no concurrent feature owner
 Branch: feat/r1-0-foundation-alignment. Checkout: C:/Projects/news-intelligence-engine.
 Starting main: 0900eafefd8fa8829e45a64923755f48afd220e7; history preserved and archived.
 Origin: https://github.com/osamaali-albawaba/news-intelligence-engine.git.
-Local checks pass; commit/push and remote CI confirmation pending for this branch.
+R1.0 implementation commit 0218ff17be69377c1b97f41e14f90f8530317ec3 pushed and
+remote branch SHA verified. All nine planning files match ZIP hashes remotely.
+CI run 37499059502 succeeded including all 27 tests and TypeScript checking.
+Repository metadata is currently public (owner setting); visibility was not changed.
+This handoff-only follow-up gets its own CI run; verify that run after push.
 
 ## LAST COMPLETED TASK
 
+Completed R1.0 offline alignment and verified successful branch CI:
+https://github.com/osamaali-albawaba/news-intelligence-engine/actions/runs/37499059502
 Imported nine Markdown files unchanged into docs/planning, with SHA-256 verification.
 Preserved user's file named docs at docs/legacy/original-docs-file.txt, unchanged.
 Aligned docs and safe config to local-first/manual-only. Added optional-angle,
@@ -50,7 +56,8 @@ Local TypeScript check passed; npm audit reported zero vulnerabilities. No cloud
 
 ## NEXT TASK
 
-Finish R1.0 checks, commit/push this branch and verify remote CI; stop before R1.1.
+R1.0 implementation checks/push/CI completed. Push this handoff update and verify
+its remote SHA and CI, then stop. Do not merge main or start R1.1 automatically.
 R1.1 requires separate approval plus G01 environment/launcher facts, G02 first section
 rules and G03 reviewed first source dossier/sample rights. G04 free-only API/provider
 verification is required before R1.3. G05 editorial baseline and G06 off-device
@@ -66,4 +73,5 @@ npm run typecheck
 All engine checks use synthetic/local data; Git/CI/dependency tooling is separate
 from prohibited live collection/AI. Local foundation/handoff checks, all 27 Python tests, TypeScript typecheck and Git
 whitespace checks passed outside unchanged planning Markdown (its original two-space
-line breaks are preserved intentionally). Remote synchronization and branch CI pending.
+line breaks are preserved intentionally). Branch synchronization and implementation
+CI succeeded. Confirm the separate CI run for this handoff-only follow-up.
