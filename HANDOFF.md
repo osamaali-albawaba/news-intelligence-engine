@@ -12,7 +12,11 @@ Origin: https://github.com/osamaali-albawaba/news-intelligence-engine.git.
 Prior latest branch CI succeeded:
 https://github.com/osamaali-albawaba/news-intelligence-engine/actions/runs/37499213225
 Repository visibility is owner-controlled public; no visibility change requested.
-Current readiness documentation commit/push/CI verification pending at this writing.
+Readiness commit bf631145ec3abaadf3aee022e33a4c3000505e20 pushed to origin;
+remote branch SHA and all three document blobs verified. Its CI succeeded:
+https://github.com/osamaali-albawaba/news-intelligence-engine/actions/runs/37520867273
+This handoff-only verification record has its own subsequent commit/CI; inspect
+branch refs and Actions for that newest run instead of inferring a self-referential SHA.
 No R1.1 code, real collector, API service, AI, schedule, deployment or paid service enabled.
 
 ## LAST COMPLETED TASK
@@ -50,12 +54,13 @@ newsroom batch. UN English catalogue robots-denied and candidate feed URL not
 primary-verified. UN notification/internal-tool scope unresolved; QNA reuse rights
 unresolved; BBC/Al Jazeera deferred. Existing owner agreements unknown. No AI API
 entitlement requested/tested; G04 belongs to R1.3. Actual owner runtime DB elsewhere
-unknown. Current docs-only check/sync status recorded below after execution.
+unknown. Current docs-only checks and substantive commit sync/CI passed as recorded below.
 
 ## NEXT TASK
 
-Finish readiness documentation checks, commit/push this dedicated branch and verify
-remote SHA/CI; then stop. Do not merge main or implement R1.1 automatically.
+Readiness documentation checks, substantive commit push, remote blob/SHA and CI
+verification are complete. Publish this handoff verification record, verify its
+remote SHA/CI, then stop. Do not merge main or implement R1.1 automatically.
 Owner reviews G01 pilot machine and G02 News rules; G03 licensed sample/first-source
 scope plus bilingual/independent batch remain conditional or blocked as recorded.
 After explicit implementation authorization: local Windows launcher + loopback API
@@ -74,6 +79,9 @@ No new implementation/tests or dependency installation required for this docs-on
 task. Run existing offline regression checks and integrity/handoff guard; confirm
 only the three intended Markdown paths differ from the starting commit.
 Current task checks passed: foundation/baseline hash/handoff guard, all 27 Python
-tests, TypeScript typecheck and tracked-file whitespace check. New Markdown
-whitespace and staged scope will be checked before commit. Push/new CI: pending.
+tests, TypeScript typecheck, staged Markdown whitespace and exact three-file scope.
+CI 37520867273 succeeded including npm ci/typecheck and handoff guard; no errors.
+Substantive readiness commit remote SHA and document blobs verified; main unchanged.
+The handoff-only follow-up requires the same guard/whitespace check before commit
+and remote SHA/CI verification after push; no broader local retest needed.
 No live launcher/source/UI integration acceptance claimed.
